@@ -3,16 +3,24 @@
 
 #include "Function.hpp"
 
-class DE {
-  static constexpr int NP = 10;
-
+class OptSettings {
+ public:
   const int dim;
+  const int evalLim;
+  const int seed;
+  OptSettings(int dim, int evalLim, int seed)
+      : dim(dim), evalLim(evalLim), seed(seed) {}
+};
+
+class DE {
+  const OptSettings settings;
+
+  static constexpr int NP = 10;
   const double CR;
   const double F;
-  const int seed;
 
  public:
-  DE(int dim, double CR = 0.5, double F = 1.0, int seed = 112358)
-      : dim(dim), CR(CR), F(F), seed(seed) {}
+  DE(const OptSettings settings, double CR = 0.5, double F = 1.0)
+      : settings(settings), CR(CR), F(F) {}
   std::vector<double> optimize(const FunctionInterface&);
 };
