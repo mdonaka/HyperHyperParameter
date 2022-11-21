@@ -41,6 +41,29 @@ auto mutation(int n, double f, const std::vector<std::vector<double>>& pops,
   return ms;
 }
 
+auto crossover(int n, double cr, std::vector<std::vector<double>> ms,
+               const std::vector<std::vector<double>>& pops, OptSettings& s) {
+  int dim = pops[0].size();
+  std::vector<std::vector<double>> npops;
+  npops.reserve(n);
+  std::uniform_int_distribution<> dist_int(0, dim - 1);
+  std::uniform_real_distribution<> dist_real(0.0, 1.0);
+  for (int i = 0; i < n; ++i) {
+    std::vector<double> p;
+    p.reserve(dim);
+    int sel = dist_int(s.mt);
+    for (int d = 0; d < dim; ++d) {
+      if (sel == d) {
+        p.emplace_back(ms[i][d]);
+      } else {
+        int r = dist_real(s.mt);
+        p.emplace_back((r < cr) ? ms[i][d] : pops[i][d]);
+      }
+    }
+    npops.emplace_back(p);
+  }
+  return npops;
+}
 std::vector<double> DE::optimize(const FunctionInterface& func) {
   std::cerr << "[DE] start optimize" << std::endl;
 
@@ -48,10 +71,8 @@ std::vector<double> DE::optimize(const FunctionInterface& func) {
   for (int g = 0; g < (EVAL / NP) - 1; ++g) {
     std::cerr << "[DE] generation " << g << std::endl;
     auto ms = mutation(NP, F, pops, settings);
-    for (const auto& m : ms) {
-      for (const auto& d : m) { std::cout << d << " "; }
-      std::cout << std::endl;
-    }
+    auto npops = crossover(NP, CR, ms, pops, settings);
+    std::swap(pops, npops);
   }
 
   return {};
