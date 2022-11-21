@@ -7,23 +7,29 @@
 class OptSettings {
  public:
   const int dim;
+  const int np;
   const int evalLim;
   // TODO: 乱数だけ切り離してconst claasにする
   std::mt19937 mt;
-  OptSettings(int dim, int evalLim, int seed)
-      : dim(dim), evalLim(evalLim), mt(seed) {}
+  OptSettings(int dim, int np, int evalLim, int seed)
+      : dim(dim), np(np), evalLim(evalLim), mt(seed) {}
 };
 
 class DE {
   OptSettings settings;
 
-  static constexpr int EVAL = 50;
-  static constexpr int NP = 10;
+  double min;
+  std::vector<double> ans;
+  std::vector<double> tmp;
+
   const double CR;
   const double F;
 
+  void update(const std::vector<std::vector<double>>&,
+              const FunctionInterface&);
+
  public:
   DE(const OptSettings settings, double CR = 0.5, double F = 1.0)
-      : settings(settings), CR(CR), F(F) {}
+      : settings(settings), min(1e18), CR(CR), F(F) {}
   std::vector<double> optimize(const FunctionInterface&);
 };

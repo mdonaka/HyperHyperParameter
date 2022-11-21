@@ -1,5 +1,6 @@
 #include "DE.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <unordered_set>
 
@@ -76,16 +77,36 @@ auto selection(int n, const std::vector<std::vector<double>>& pop1,
   return dom;
 }
 
+void DE::update(const std::vector<std::vector<double>>& pops,
+                const FunctionInterface& func) {
+  for (const auto& p : pops) {
+    auto f = func.f(p);
+    if (f < min) {
+      min = f;
+      ans = p;
+    }
+  }
+  tmp.emplace_back(min);
+}
+
 std::vector<double> DE::optimize(const FunctionInterface& func) {
   std::cerr << "[DE] start optimize" << std::endl;
 
-  auto pops = initialize(NP, settings);
-  for (int g = 0; g < (EVAL / NP) - 1; ++g) {
+  auto pops = initialize(settings.np, settings);
+  update(pops, func);
+  auto loop = settings.evalLim / settings.np - 1;
+  for (int g = 0; g < loop; ++g) {
+    // for (const auto& p : pops) {
+    //   for (const auto x : p) { std::cout << x << " "; }
+    //   std::cout << std::endl;
+    // }
     std::cerr << "[DE] generation " << g << std::endl;
-    auto ms = mutation(NP, F, pops, settings);
-    auto npops = crossover(NP, CR, ms, pops, settings);
-    pops = selection(NP, pops, npops, func);
+    auto ms = mutation(settings.np, F, pops, settings);
+    auto npops = crossover(settings.np, CR, ms, pops, settings);
+    pops = selection(settings.np, pops, npops, func);
+    update(pops, func);
   }
 
-  return {};
+  for (const auto& x : tmp) { std::cout << x << std::endl; }
+  return ans;
 }

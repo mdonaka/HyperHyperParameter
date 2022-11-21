@@ -4,7 +4,7 @@
 #include "Function.hpp"
 
 int main() {
-  auto settings = OptSettings(2, 50, 112358);
+  auto settings = OptSettings(2, 10, 100, 112358);
   auto de = DE(settings);
   auto f = Rosenbrock();
   de.optimize(f);
