@@ -64,6 +64,18 @@ auto crossover(int n, double cr, std::vector<std::vector<double>> ms,
   }
   return npops;
 }
+
+auto selection(int n, const std::vector<std::vector<double>>& pop1,
+               const std::vector<std::vector<double>>& pop2,
+               const FunctionInterface& func) {
+  std::vector<std::vector<double>> dom;
+  dom.reserve(n);
+  for (int i = 0; i < n; ++i) {
+    dom.emplace_back((func.f(pop1[i]) < func.f(pop2[i])) ? pop1[i] : pop2[i]);
+  }
+  return dom;
+}
+
 std::vector<double> DE::optimize(const FunctionInterface& func) {
   std::cerr << "[DE] start optimize" << std::endl;
 
@@ -72,7 +84,7 @@ std::vector<double> DE::optimize(const FunctionInterface& func) {
     std::cerr << "[DE] generation " << g << std::endl;
     auto ms = mutation(NP, F, pops, settings);
     auto npops = crossover(NP, CR, ms, pops, settings);
-    std::swap(pops, npops);
+    pops = selection(NP, pops, npops, func);
   }
 
   return {};
