@@ -1,4 +1,5 @@
 #pragma once
+#include <random>
 #include <vector>
 
 #include "Function.hpp"
@@ -7,13 +8,14 @@ class OptSettings {
  public:
   const int dim;
   const int evalLim;
-  const int seed;
+  // TODO: 乱数だけ切り離してconst claasにする
+  std::mt19937 mt;
   OptSettings(int dim, int evalLim, int seed)
-      : dim(dim), evalLim(evalLim), seed(seed) {}
+      : dim(dim), evalLim(evalLim), mt(seed) {}
 };
 
 class DE {
-  const OptSettings settings;
+  OptSettings settings;
 
   static constexpr int NP = 10;
   const double CR;

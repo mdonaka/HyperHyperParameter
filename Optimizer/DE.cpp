@@ -1,18 +1,16 @@
 #include "DE.hpp"
 
 #include <iostream>
-#include <random>
 
-auto initialize(int n, const OptSettings& settings) {
+auto initialize(int n, OptSettings& s) {
   std::vector<std::vector<double>> pop;
   pop.reserve(n);
 
-  std::mt19937 mt(settings.seed);
   std::uniform_real_distribution<> dist(0.0, 1.0);
   for (int i = 0; i < n; ++i) {
     std::vector<double> x;
-    x.reserve(settings.dim);
-    for (int k = 0; k < settings.dim; ++k) { x.emplace_back(dist(mt)); }
+    x.reserve(s.dim);
+    for (int k = 0; k < s.dim; ++k) { x.emplace_back(dist(s.mt)); }
     pop.emplace_back(x);
   }
   return pop;
