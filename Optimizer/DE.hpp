@@ -17,6 +17,7 @@ class OptSettings {
 class DE {
   OptSettings settings;
 
+  static constexpr int EVAL = 50;
   static constexpr int NP = 10;
   const double CR;
   const double F;
