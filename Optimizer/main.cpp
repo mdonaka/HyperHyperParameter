@@ -21,7 +21,7 @@ auto run_f2(const FunctionInterface& f, int seed) {
   auto [x1, y1] = de1.optimize(f1);
 
   auto de0 = DE(OptSettings(2, 10, 100, seed), x1[0], x1[1]);
-  auto [x0, y0] = de0.optimize(f);
+  auto [x0, y0] = de0.optimize(f, false, "f2");
 
   output(x2, y2);
   output(x1, y1);
@@ -35,7 +35,7 @@ auto run_f1(const FunctionInterface& f, int seed) {
   auto [x1, y1] = de1.optimize(f1, true);
 
   auto de0 = DE(OptSettings(2, 10, 100, seed), x1[0], x1[1]);
-  auto [x0, y0] = de0.optimize(f);
+  auto [x0, y0] = de0.optimize(f, false, "f1");
 
   output(x1, y1);
   output(x0, y0);
@@ -43,7 +43,7 @@ auto run_f1(const FunctionInterface& f, int seed) {
 
 auto run_f0(const FunctionInterface& f, int seed) {
   auto de0 = DE(OptSettings(2, 10, 100, seed));
-  auto [x0, y0] = de0.optimize(f, true);
+  auto [x0, y0] = de0.optimize(f, true, "f0");
 
   output(x0, y0);
 }

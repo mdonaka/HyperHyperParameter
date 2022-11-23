@@ -1,6 +1,8 @@
 #include "DE.hpp"
 
 #include <algorithm>
+#include <deque>
+#include <fstream>
 #include <iostream>
 #include <unordered_set>
 
@@ -90,11 +92,14 @@ void DE::update(const std::vector<std::vector<double>>& pops,
 }
 
 std::pair<std::vector<double>, double> DE::optimize(
-    const FunctionInterface& func, bool log) {
+    const FunctionInterface& func, bool log, const std::string& result_file) {
   if (log) { std::cerr << "[DE] start optimize" << std::endl; }
 
+  std::deque<double> result;
   auto pops = initialize(settings.np, settings);
   update(pops, func);
+  result.emplace_back(min);
+
   auto loop = settings.evalLim / settings.np - 1;
   for (int g = 0; g < loop; ++g) {
     if (log) { std::cerr << "[DE] generation " << g << std::endl; }
@@ -102,6 +107,12 @@ std::pair<std::vector<double>, double> DE::optimize(
     auto npops = crossover(settings.np, CR, ms, pops, settings);
     pops = selection(settings.np, pops, npops, func);
     update(pops, func);
+    result.emplace_back(min);
+  }
+  if (result_file != "") {
+    std::ofstream of("../Result/" + result_file);
+    for (const auto& r : result) { of << r << std::endl; }
+    of.close();
   }
   return {ans, min};
 }
