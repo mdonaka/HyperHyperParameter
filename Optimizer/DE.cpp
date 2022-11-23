@@ -90,18 +90,14 @@ void DE::update(const std::vector<std::vector<double>>& pops,
 }
 
 std::pair<std::vector<double>, double> DE::optimize(
-    const FunctionInterface& func) {
-  std::cerr << "[DE] start optimize" << std::endl;
+    const FunctionInterface& func, bool log) {
+  if (log) { std::cerr << "[DE] start optimize" << std::endl; }
 
   auto pops = initialize(settings.np, settings);
   update(pops, func);
   auto loop = settings.evalLim / settings.np - 1;
   for (int g = 0; g < loop; ++g) {
-    // for (const auto& p : pops) {
-    //   for (const auto x : p) { std::cout << x << " "; }
-    //   std::cout << std::endl;
-    // }
-    std::cerr << "[DE] generation " << g << std::endl;
+    if (log) { std::cerr << "[DE] generation " << g << std::endl; }
     auto ms = mutation(settings.np, F, pops, settings);
     auto npops = crossover(settings.np, CR, ms, pops, settings);
     pops = selection(settings.np, pops, npops, func);
