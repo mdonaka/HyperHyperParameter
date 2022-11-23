@@ -24,3 +24,13 @@ class F1 : public FunctionInterface {
   double f(const std::vector<double>&) const;
 };
 
+class F2 : public FunctionInterface {
+  // TODO: template
+  using F = Rosenbrock;
+  const int seed;
+
+ public:
+  F2(int seed) : seed(seed) {}
+  double f(const std::vector<double>&) const;
+};
+

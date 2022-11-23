@@ -28,3 +28,11 @@ double F1::f(const std::vector<double>& x) const {
   return y;
 }
 
+double F2::f(const std::vector<double>& x) const {
+  auto settings = OptSettings(2, 10, 100, seed);
+  auto de = DE(settings, x[0], x[1]);
+  auto f = F1(seed);
+  auto [_, y] = de.optimize(f);
+  return y;
+}
+
