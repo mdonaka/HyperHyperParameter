@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "DE.hpp"
+#include "Parameter.hpp"
 
 double Rosenbrock::f(const std::vector<double>& x_) const {
   int size = x_.size();
@@ -21,7 +22,7 @@ double Rosenbrock::f(const std::vector<double>& x_) const {
 }
 
 double F1::f(const std::vector<double>& x) const {
-  auto settings = OptSettings(2, 10, 100, seed);
+  auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
   auto f = F();
   auto [_, y] = de.optimize(f);
@@ -29,7 +30,7 @@ double F1::f(const std::vector<double>& x) const {
 }
 
 double F2::f(const std::vector<double>& x) const {
-  auto settings = OptSettings(2, 10, 100, seed);
+  auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
   auto f = F1(seed);
   auto [_, y] = de.optimize(f);
