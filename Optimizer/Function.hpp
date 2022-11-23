@@ -11,20 +11,16 @@ class Rosenbrock : public FunctionInterface {
   static constexpr double max = 5;
 
  public:
-  double f(const std::vector<double>& x_) const {
-    int size = x_.size();
+  double f(const std::vector<double>&) const;
+};
 
-    std::vector<double> x;
-    x.reserve(size);
-    for (const auto& p : x_) { x.emplace_back(p * (max - min) + min); }
+class F1 : public FunctionInterface {
+  // TODO: template
+  using F = Rosenbrock;
+  const int seed;
 
-    double ret = 0.0;
-    for (int i = 0; i < size - 1; ++i) {
-      auto a = x[i + 1] - x[i] * x[i];
-      auto b = x[i] - 1;
-      ret += 100 * a * a + b * b;
-    }
-    return ret;
-  }
+ public:
+  F1(int seed) : seed(seed) {}
+  double f(const std::vector<double>&) const;
 };
 

@@ -31,5 +31,5 @@ class DE {
  public:
   DE(const OptSettings settings, double CR = 0.5, double F = 1.0)
       : settings(settings), min(1e18), CR(CR), F(F) {}
-  std::vector<double> optimize(const FunctionInterface&);
+  std::pair<std::vector<double>, double> optimize(const FunctionInterface&);
 };

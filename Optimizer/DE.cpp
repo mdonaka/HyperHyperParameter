@@ -89,7 +89,8 @@ void DE::update(const std::vector<std::vector<double>>& pops,
   tmp.emplace_back(min);
 }
 
-std::vector<double> DE::optimize(const FunctionInterface& func) {
+std::pair<std::vector<double>, double> DE::optimize(
+    const FunctionInterface& func) {
   std::cerr << "[DE] start optimize" << std::endl;
 
   auto pops = initialize(settings.np, settings);
@@ -106,7 +107,5 @@ std::vector<double> DE::optimize(const FunctionInterface& func) {
     pops = selection(settings.np, pops, npops, func);
     update(pops, func);
   }
-
-  for (const auto& x : tmp) { std::cout << x << std::endl; }
-  return ans;
+  return {ans, min};
 }
