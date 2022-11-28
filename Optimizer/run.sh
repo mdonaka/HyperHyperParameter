@@ -8,7 +8,7 @@ $CXX -o \
   build/run \
   build/main.o \
   build/DE.o \
-  build/Function.o \
+  build/Function.o &&
 
 echo "start" &&
 ./build/run
