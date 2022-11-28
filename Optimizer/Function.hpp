@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <vector>
 
 class FunctionInterface {
@@ -7,6 +8,7 @@ class FunctionInterface {
 };
 
 class Rosenbrock : public FunctionInterface {
+  static inline int cnt = 0;
   static constexpr double min = -5;
   static constexpr double max = 5;
 

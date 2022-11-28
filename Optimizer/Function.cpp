@@ -25,15 +25,15 @@ double F1::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
   auto f = F();
-  auto [_, y] = de.optimize(f);
-  return y;
+  auto p = de.optimize(f);
+  return p.y;
 }
 
 double F2::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
   auto f = F1(seed);
-  auto [_, y] = de.optimize(f);
-  return y;
+  auto p = de.optimize(f);
+  return p.y;
 }
 

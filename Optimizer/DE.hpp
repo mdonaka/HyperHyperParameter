@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Function.hpp"
+#include "Poplation.hpp"
 
 class OptSettings {
  public:
@@ -18,20 +19,12 @@ class OptSettings {
 class DE {
   OptSettings settings;
 
-  double min;
-  std::vector<double> ans;
-  std::vector<double> tmp;
-
   const double CR;
   const double F;
 
-  void update(const std::vector<std::vector<double>>&,
-              const FunctionInterface&);
-
  public:
   DE(const OptSettings settings, double CR = 0.5, double F = 1.0)
-      : settings(settings), min(1e18), CR(CR), F(F) {}
-  std::pair<std::vector<double>, double> optimize(
-      const FunctionInterface&, bool log = false,
-      const std::string& result_file = "");
+      : settings(settings), CR(CR), F(F) {}
+  Poplation optimize(const FunctionInterface&, bool log = false,
+                     const std::string& result_file = "");
 };
