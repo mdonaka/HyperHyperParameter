@@ -23,7 +23,7 @@ class Data:
 
 
 def plot_data(data: list[Data]):
-    loop = 5
+    loop = 100
     for d in data:
         y: np.ndarray = None
         for num in range(loop):

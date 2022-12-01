@@ -1,5 +1,5 @@
 
 namespace Param {
-constexpr int NP = 10;
-constexpr int EVAL = 100;
+constexpr int NP = 20;
+constexpr int EVAL = 1000;
 }  // namespace Param
