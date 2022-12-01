@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include "DE.hpp"
 #include "Function.hpp"
@@ -14,12 +15,7 @@ auto run_f2(const FunctionInterface& f, int seed) {
   auto de1 = DE(OptSettings(2, Param::NP, Param::EVAL, seed), p2.x[0], p2.x[1]);
   auto p1 = de1.optimize(f1);
 
-  auto de0 = DE(OptSettings(2, Param::NP, Param::EVAL, seed), p1.x[0], p1.x[1]);
-  auto p0 = de0.optimize(f, false, "f2");
-
-  p2.output();
-  p1.output();
-  p0.output();
+  return std::pair<double, double>{p1.x[0], p1.x[1]};
 }
 
 auto run_f1(const FunctionInterface& f, int seed) {
@@ -28,25 +24,34 @@ auto run_f1(const FunctionInterface& f, int seed) {
   auto de1 = DE(OptSettings(2, Param::NP, Param::EVAL, seed));
   auto p1 = de1.optimize(f1, true);
 
-  auto de0 = DE(OptSettings(2, Param::NP, Param::EVAL, seed), p1.x[0], p1.x[1]);
-  auto p0 = de0.optimize(f, false, "f1");
-
-  p1.output();
-  p0.output();
+  return std::pair<double, double>{p1.x[0], p1.x[1]};
 }
 
-auto run_f0(const FunctionInterface& f, int seed) {
-  auto de0 = DE(OptSettings(2, Param::NP, Param::EVAL, seed));
-  auto pop = de0.optimize(f, true, "f0");
-
-  pop.output();
+auto run(std::string file, const FunctionInterface& f, double CR, double F) {
+  auto seed = std::random_device()();
+  std::mt19937 mt(seed);
+  for (int i = 0; i < 5; ++i) {
+    auto de = DE(OptSettings(2, Param::NP, Param::EVAL, mt()), CR, F);
+    de.optimize(f, true, file + std::to_string(i));
+  }
 }
 
 int main() {
   int seed = 112358;
   auto rosen = Rosenbrock();
 
-  run_f2(rosen, seed);
-  run_f1(rosen, seed);
-  run_f0(rosen, seed);
+  {
+    std::cerr << "[DE] start F2" << std::endl;
+    auto [CR, F] = run_f2(rosen, seed);
+    run("f2/result", rosen, CR, F);
+  }
+  {
+    std::cerr << "[DE] start F1" << std::endl;
+    auto [CR, F] = run_f1(rosen, seed);
+    run("f1/result", rosen, CR, F);
+  }
+  {
+    std::cerr << "[DE] start F1" << std::endl;
+    run("f0/result", rosen, 0.5, 0.5);
+  }
 }
