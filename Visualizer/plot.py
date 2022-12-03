@@ -32,7 +32,7 @@ def plot_data(data: list[Data]):
                 y = y_
             else:
                 y += y_
-        y /= 5
+        y /= loop
         x = np.array([t+1 for t in range(len(y))])
         plt.plot(x, y, label=d.label, c=d.c)
 
