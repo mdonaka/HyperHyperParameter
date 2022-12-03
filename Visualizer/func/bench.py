@@ -2,14 +2,19 @@
 Thanks to https://qiita.com/nabenabe0928/items/08ed6495853c3dd08f1e.
 """
 
+from dataclasses import dataclass, field
+from typing import ClassVar
+
 import numpy as np
 
 
-class rosenbrock():
-    def __init__(self):
+@dataclass(frozen=True)
+class Rosenbrock():
+    lower: float = field(default=-5, init=False)
+    upper: float = field(default=5, init=False)
+
+    def __post_init__(self):
         print("this is Rosenbrock function.")
-        self.boundaries = np.array([-5, 5])
-        print("boundary is {}".format(self.boundaries))
         print("minimum is {}".format(0))
 
     def f(self, x):
@@ -21,11 +26,13 @@ class rosenbrock():
         return val
 
 
-class rastrigin():
+@dataclass(frozen=True)
+class Rastrigin():
+    lower: float = field(default=-5.12, init=False)
+    upper: float = field(default=5.12, init=False)
+
     def __init__(self):
         print("this is Rastrigin function")
-        self.boundaries = np.array([-5.12, 5.12])
-        print("boundary is {}".format(self.boundaries))
         print("minimum is {}".format(0))
 
     def f(self, x):
@@ -35,12 +42,15 @@ class rastrigin():
         return t1 + t2 + t3
 
 
-class schwefel():
+@dataclass(frozen=True)
+class Schwefel():
+    lower: float = field(default=-500, init=False)
+    upper: float = field(default=500, init=False)
+
     def __init__(self):
         print("this is Schwefel function")
-        self.boundaries = np.array([-500, 500])
-        print("boundary is {}".format(self.boundaries))
         print("minimum is {} times n_dim".format(-418.9829))
 
     def f(self, x):
-        return - np.sum(x * np.sin(np.sqrt(np.abs(x))))
+        val = -np.sum(x * np.sin(np.sqrt(np.abs(x))))
+        return val
