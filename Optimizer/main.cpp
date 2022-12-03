@@ -42,19 +42,20 @@ auto run(std::string file, const FunctionInterface& f, double CR, double F) {
 int main() {
   int seed = 112358;
   auto rosen = Rosenbrock();
+  std::string base = "rosen";
 
   {
     std::cerr << "[DE] start F2" << std::endl;
     auto [CR, F] = run_f2(rosen, seed);
-    run("f2/result", rosen, CR, F);
+    run(base + "/f0/result", rosen, CR, F);
   }
   {
     std::cerr << "[DE] start F1" << std::endl;
     auto [CR, F] = run_f1(rosen, seed);
-    run("f1/result", rosen, CR, F);
+    run(base + "/f1/result", rosen, CR, F);
   }
   {
     std::cerr << "[DE] start F1" << std::endl;
-    run("f0/result", rosen, 0.5, 0.5);
+    run(base + "f0/result", rosen, 0.5, 0.5);
   }
 }
