@@ -6,7 +6,7 @@
 #include <iostream>
 #include <unordered_set>
 
-auto initialize(const std::unique_ptr<FunctionInterface>& func, int n,
+auto initialize(const std::shared_ptr<FunctionInterface>& func, int n,
                 OptSettings& s) {
   std::vector<Poplation> pop;
   pop.reserve(n);
@@ -45,7 +45,7 @@ auto mutation(int n, double f, const std::vector<Poplation>& pops,
   return ms;
 }
 
-auto crossover(const std::unique_ptr<FunctionInterface>& func, int n, double cr,
+auto crossover(const std::shared_ptr<FunctionInterface>& func, int n, double cr,
                std::vector<std::vector<double>> ms,
                const std::vector<Poplation>& pops, OptSettings& s) {
   int dim = pops[0].x.size();
@@ -80,7 +80,7 @@ auto selection(int n, const std::vector<Poplation>& pop1,
   return dom;
 }
 
-Poplation DE::optimize(const std::unique_ptr<FunctionInterface>& func, bool log,
+Poplation DE::optimize(const std::shared_ptr<FunctionInterface>& func, bool log,
                        const std::string& result_file) {
   if (log) { std::cerr << "[DE] start optimize" << std::endl; }
 

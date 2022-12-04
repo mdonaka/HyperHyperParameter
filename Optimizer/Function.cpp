@@ -36,18 +36,18 @@ double Rastrigin::f(const std::vector<double>& x_) const {
 double F1::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
-  auto p = de.optimize(std::make_unique<F>());
+  auto p = de.optimize(func);
   return p.y;
 }
 
 double F2::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
-  auto p = de.optimize(std::make_unique<F1>(seed));
+  auto p = de.optimize(std::make_unique<F1>(func, seed));
   return p.y;
 }
-std::unique_ptr<FunctionInterface> selectFunction(const std::string& name) {
-  if (name == "Rosenbrock") { return std::make_unique<Rosenbrock>(); }
-  if (name == "Rastrigin") { return std::make_unique<Rastrigin>(); }
+std::shared_ptr<FunctionInterface> selectFunction(const std::string& name) {
+  if (name == "Rosenbrock") { return std::make_shared<Rosenbrock>(); }
+  if (name == "Rastrigin") { return std::make_shared<Rastrigin>(); }
   throw std::runtime_error("TODO");
 }
