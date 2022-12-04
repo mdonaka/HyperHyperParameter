@@ -38,10 +38,12 @@ def plot_data(data: list[Data]):
 
 
 if __name__ == '__main__':
+    # Rastrigin, Rosenbrock, Schwefel
+    func_dir = "Schwefel"
     data = [
-        Data("../Result/f0/result", "f0", "r"),
-        Data("../Result/f1/result", "f1", "g"),
-        Data("../Result/f2/result", "f2", "b"),
+        Data(f"../Result/{func_dir}/f0/result", "f0", "r"),
+        Data(f"../Result/{func_dir}/f1/result", "f1", "g"),
+        Data(f"../Result/{func_dir}/f2/result", "f2", "b"),
     ]
 
     plot_data(data)

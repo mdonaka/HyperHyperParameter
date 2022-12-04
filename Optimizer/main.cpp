@@ -33,11 +33,10 @@ auto run(std::string file, const std::shared_ptr<FunctionInterface>& f,
          double CR, double F) {
   auto seed = std::random_device()();
   std::mt19937 mt(seed);
-  constexpr int loop = 1;
+  constexpr int loop = 100;
   for (int i = 0; i < loop; ++i) {
     auto de = DE(OptSettings(2, Param::NP, Param::EVAL, mt()), CR, F);
     auto p = de.optimize(f, false, file + std::to_string(i));
-    p.output();
   }
 }
 
@@ -48,15 +47,15 @@ int main() {
   {
     std::cerr << "[DE] start F2" << std::endl;
     auto [CR, F] = run_f2(func, seed);
-    run(Param::FUNC + "/f2/result", func, CR, F);
+    run("../Result/" + Param::FUNC + "/f2/result", func, CR, F);
   }
   {
     std::cerr << "[DE] start F1" << std::endl;
     auto [CR, F] = run_f1(func, seed);
-    run(Param::FUNC + "/f1/result", func, CR, F);
+    run("../Result/" + Param::FUNC + "/f1/result", func, CR, F);
   }
   {
     std::cerr << "[DE] start F0" << std::endl;
-    run(Param::FUNC + "f0/result", func, 0.5, 0.5);
+    run("../Result/" + Param::FUNC + "/f0/result", func, 0.5, 0.5);
   }
 }
