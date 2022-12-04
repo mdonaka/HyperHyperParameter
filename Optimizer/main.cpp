@@ -43,19 +43,19 @@ auto run(std::string file, const std::shared_ptr<FunctionInterface>& f,
 
 int main() {
   int seed = 112358;
-  std::string func_name = "Rastrigin";
+  std::string func_name = "Schwefel";
   auto func = selectFunction(func_name);
 
-  {
-    std::cerr << "[DE] start F2" << std::endl;
-    auto [CR, F] = run_f2(func, seed);
-    run(func_name + "/f2/result", func, CR, F);
-  }
-  {
-    std::cerr << "[DE] start F1" << std::endl;
-    auto [CR, F] = run_f1(func, seed);
-    run(func_name + "/f1/result", func, CR, F);
-  }
+  // {
+  //   std::cerr << "[DE] start F2" << std::endl;
+  //   auto [CR, F] = run_f2(func, seed);
+  //   run(func_name + "/f2/result", func, CR, F);
+  // }
+  // {
+  //   std::cerr << "[DE] start F1" << std::endl;
+  //   auto [CR, F] = run_f1(func, seed);
+  //   run(func_name + "/f1/result", func, CR, F);
+  // }
   {
     std::cerr << "[DE] start F0" << std::endl;
     run(func_name + "f0/result", func, 0.5, 0.5);

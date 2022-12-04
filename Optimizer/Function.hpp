@@ -25,6 +25,15 @@ class Rastrigin : public FunctionInterface {
   double f(const std::vector<double>&) const;
 };
 
+class Schwefel : public FunctionInterface {
+  static inline int cnt = 0;
+  static constexpr double min = -500.0;
+  static constexpr double max = 500.0;
+
+ public:
+  double f(const std::vector<double>&) const;
+};
+
 class F1 : public FunctionInterface {
   const std::shared_ptr<FunctionInterface> func;
   const int seed;

@@ -32,6 +32,17 @@ double Rastrigin::f(const std::vector<double>& x_) const {
   for (const auto& t : x) { ret += t * t - 10.0 * std::cos(2.0 * pi * t); }
   return ret;
 }
+double Schwefel::f(const std::vector<double>& x_) const {
+  int size = x_.size();
+
+  std::vector<double> x;
+  x.reserve(size);
+  for (const auto& p : x_) { x.emplace_back(p * (max - min) + min); }
+
+  double ret = 0.0;
+  for (const auto& t : x) { ret += t * std::sin(std::sqrt(std::abs(t))); }
+  return ret;
+}
 
 double F1::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
@@ -49,5 +60,6 @@ double F2::f(const std::vector<double>& x) const {
 std::shared_ptr<FunctionInterface> selectFunction(const std::string& name) {
   if (name == "Rosenbrock") { return std::make_shared<Rosenbrock>(); }
   if (name == "Rastrigin") { return std::make_shared<Rastrigin>(); }
+  if (name == "Schwefel") { return std::make_shared<Schwefel>(); }
   throw std::runtime_error("TODO");
 }
