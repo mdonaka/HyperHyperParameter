@@ -45,16 +45,16 @@ int main() {
   int seed = 112358;
   auto func = selectFunction(Param::FUNC);
 
-  // {
-  //   std::cerr << "[DE] start F2" << std::endl;
-  //   auto [CR, F] = run_f2(func, seed);
-  //   run(func_name + "/f2/result", func, CR, F);
-  // }
-  // {
-  //   std::cerr << "[DE] start F1" << std::endl;
-  //   auto [CR, F] = run_f1(func, seed);
-  //   run(func_name + "/f1/result", func, CR, F);
-  // }
+  {
+    std::cerr << "[DE] start F2" << std::endl;
+    auto [CR, F] = run_f2(func, seed);
+    run(Param::FUNC + "/f2/result", func, CR, F);
+  }
+  {
+    std::cerr << "[DE] start F1" << std::endl;
+    auto [CR, F] = run_f1(func, seed);
+    run(Param::FUNC + "/f1/result", func, CR, F);
+  }
   {
     std::cerr << "[DE] start F0" << std::endl;
     run(Param::FUNC + "f0/result", func, 0.5, 0.5);
