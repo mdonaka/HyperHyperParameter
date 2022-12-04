@@ -33,7 +33,7 @@ auto run(std::string file, const FunctionInterface& f, double CR, double F) {
   auto seed = std::random_device()();
   std::mt19937 mt(seed);
   constexpr int loop = 100;
-  for (int i = 0; i < 100; ++i) {
+  for (int i = 0; i < loop; ++i) {
     auto de = DE(OptSettings(2, Param::NP, Param::EVAL, mt()), CR, F);
     de.optimize(f, false, file + std::to_string(i));
   }
@@ -55,7 +55,7 @@ int main() {
     run(base + "/f1/result", rosen, CR, F);
   }
   {
-    std::cerr << "[DE] start F1" << std::endl;
+    std::cerr << "[DE] start F0" << std::endl;
     run(base + "f0/result", rosen, 0.5, 0.5);
   }
 }
