@@ -20,20 +20,34 @@ double Rosenbrock::f(const std::vector<double>& x_) const {
   }
   return ret;
 }
+double Rastrigin::f(const std::vector<double>& x_) const {
+  int size = x_.size();
+
+  std::vector<double> x;
+  x.reserve(size);
+  for (const auto& p : x_) { x.emplace_back(p * (max - min) + min); }
+
+  double ret = 10.0 * size;
+  const auto pi = std::acos(-1);
+  for (const auto& t : x) { ret += t * t - 10.0 * std::cos(2.0 * pi * t); }
+  return ret;
+}
 
 double F1::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
-  auto f = F();
-  auto p = de.optimize(f);
+  auto p = de.optimize(std::make_unique<F>());
   return p.y;
 }
 
 double F2::f(const std::vector<double>& x) const {
   auto settings = OptSettings(2, Param::NP, Param::EVAL, seed);
   auto de = DE(settings, x[0], x[1]);
-  auto f = F1(seed);
-  auto p = de.optimize(f);
+  auto p = de.optimize(std::make_unique<F1>(seed));
   return p.y;
 }
-
+std::unique_ptr<FunctionInterface> selectFunction(const std::string& name) {
+  if (name == "Rosenbrock") { return std::make_unique<Rosenbrock>(); }
+  if (name == "Rastrigin") { return std::make_unique<Rastrigin>(); }
+  throw std::runtime_error("TODO");
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <memory>
 #include <vector>
 
 class FunctionInterface {
@@ -11,6 +12,14 @@ class Rosenbrock : public FunctionInterface {
   static inline int cnt = 0;
   static constexpr double min = -5;
   static constexpr double max = 5;
+
+ public:
+  double f(const std::vector<double>&) const;
+};
+class Rastrigin : public FunctionInterface {
+  static inline int cnt = 0;
+  static constexpr double min = -5.12;
+  static constexpr double max = 5.12;
 
  public:
   double f(const std::vector<double>&) const;
@@ -36,3 +45,4 @@ class F2 : public FunctionInterface {
   double f(const std::vector<double>&) const;
 };
 
+std::unique_ptr<FunctionInterface> selectFunction(const std::string& name);

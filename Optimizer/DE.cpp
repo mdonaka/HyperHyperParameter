@@ -6,7 +6,8 @@
 #include <iostream>
 #include <unordered_set>
 
-auto initialize(const FunctionInterface& func, int n, OptSettings& s) {
+auto initialize(const std::unique_ptr<FunctionInterface>& func, int n,
+                OptSettings& s) {
   std::vector<Poplation> pop;
   pop.reserve(n);
 
@@ -15,7 +16,7 @@ auto initialize(const FunctionInterface& func, int n, OptSettings& s) {
     std::vector<double> x;
     x.reserve(s.dim);
     for (int k = 0; k < s.dim; ++k) { x.emplace_back(dist(s.mt)); }
-    pop.emplace_back(x, func.f(x));
+    pop.emplace_back(x, func->f(x));
   }
   return pop;
 }
@@ -44,7 +45,7 @@ auto mutation(int n, double f, const std::vector<Poplation>& pops,
   return ms;
 }
 
-auto crossover(const FunctionInterface& func, int n, double cr,
+auto crossover(const std::unique_ptr<FunctionInterface>& func, int n, double cr,
                std::vector<std::vector<double>> ms,
                const std::vector<Poplation>& pops, OptSettings& s) {
   int dim = pops[0].x.size();
@@ -64,7 +65,7 @@ auto crossover(const FunctionInterface& func, int n, double cr,
         p.emplace_back((r < cr) ? ms[i][d] : pops[i].x[d]);
       }
     }
-    npops.emplace_back(p, func.f(p));
+    npops.emplace_back(p, func->f(p));
   }
   return npops;
 }
@@ -79,7 +80,7 @@ auto selection(int n, const std::vector<Poplation>& pop1,
   return dom;
 }
 
-Poplation DE::optimize(const FunctionInterface& func, bool log,
+Poplation DE::optimize(const std::unique_ptr<FunctionInterface>& func, bool log,
                        const std::string& result_file) {
   if (log) { std::cerr << "[DE] start optimize" << std::endl; }
 

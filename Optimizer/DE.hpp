@@ -25,6 +25,6 @@ class DE {
  public:
   DE(const OptSettings settings, double CR = 0.5, double F = 1.0)
       : settings(settings), CR(CR), F(F) {}
-  Poplation optimize(const FunctionInterface&, bool log = false,
-                     const std::string& result_file = "");
+  Poplation optimize(const std::unique_ptr<FunctionInterface>&,
+                     bool log = false, const std::string& result_file = "");
 };
