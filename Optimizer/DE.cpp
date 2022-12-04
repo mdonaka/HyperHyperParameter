@@ -58,12 +58,16 @@ auto crossover(const std::shared_ptr<FunctionInterface>& func, int n, double cr,
     p.reserve(dim);
     int sel = dist_int(s.mt);
     for (int d = 0; d < dim; ++d) {
+      auto val = 0.0;
       if (sel == d) {
-        p.emplace_back(ms[i][d]);
+        val = ms[i][d];
       } else {
         int r = dist_real(s.mt);
-        p.emplace_back((r < cr) ? ms[i][d] : pops[i].x[d]);
+        val = ((r < cr) ? ms[i][d] : pops[i].x[d]);
       }
+      val = std::max(val, 0.0);
+      val = std::min(val, 1.0);
+      p.emplace_back(val);
     }
     npops.emplace_back(p, func->f(p));
   }

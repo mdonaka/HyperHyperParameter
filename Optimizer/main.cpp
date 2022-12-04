@@ -43,8 +43,7 @@ auto run(std::string file, const std::shared_ptr<FunctionInterface>& f,
 
 int main() {
   int seed = 112358;
-  std::string func_name = "Schwefel";
-  auto func = selectFunction(func_name);
+  auto func = selectFunction(Param::FUNC);
 
   // {
   //   std::cerr << "[DE] start F2" << std::endl;
@@ -58,6 +57,6 @@ int main() {
   // }
   {
     std::cerr << "[DE] start F0" << std::endl;
-    run(func_name + "f0/result", func, 0.5, 0.5);
+    run(Param::FUNC + "f0/result", func, 0.5, 0.5);
   }
 }

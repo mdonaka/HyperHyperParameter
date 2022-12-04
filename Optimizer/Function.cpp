@@ -40,7 +40,7 @@ double Schwefel::f(const std::vector<double>& x_) const {
   for (const auto& p : x_) { x.emplace_back(p * (max - min) + min); }
 
   double ret = 0.0;
-  for (const auto& t : x) { ret += t * std::sin(std::sqrt(std::abs(t))); }
+  for (const auto& t : x) { ret -= t * std::sin(std::sqrt(std::abs(t))); }
   return ret;
 }
 
